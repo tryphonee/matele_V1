@@ -60,15 +60,21 @@ router.get('/', async (req, res) => {
 	
 				   let Toxic_MD_TEXT = `
 𝙎𝙀𝙎𝙎𝙄𝙊𝙉 𝘾𝙊𝙉𝙉𝙀𝘾𝙏𝙀𝘿*
- *𝙏𝙤𝙭𝙞𝙘 𝙈𝘿 𝙇𝙊𝙂𝙂𝙀𝘿* 
+ *𝗧𝗜𝗠𝗡𝗔𝗦𝗔 𝗠𝗗 𝗟𝗢𝗚𝗚𝗘𝗗* 
 ______________________________
 ╔════◇
 『••• 𝗩𝗶𝘀𝗶𝘁 𝗙𝗼𝗿 𝗛𝗲𝗹𝗽 •••』
-║❍ 𝐎𝐰𝐧𝐞𝐫: _https://wa.me/254735342808_
-║❍ 𝐑𝐞𝐩𝐨: _https://github.com/xhclintohn/Toxic-MD_
-║❍ 𝐖𝐚𝐆𝐫𝐨𝐮𝐩: _https://chat.whatsapp.com/GoXKLVJgTAAC3556FXkfFI_
-║❍ 𝐖𝐚𝐂𝐡𝐚𝐧𝐧𝐞𝐥: _https://whatsapp.com/channel/0029VagJlnG6xCSU2tS1Vz19_
-║❍ 𝐈𝐧𝐬𝐭𝐚𝐠𝐫𝐚𝐦: _https://www.instagram.com/mr.xh_clusive
+║❍ 𝐎𝐰𝐧𝐞𝐫: _https://wa.me/255784766591_
+║❍ 𝐑𝐞𝐩𝐨: _https://github.com/Next5x/TIMNASA_TMD1
+║❍ 𝐖𝐚𝐆𝐫𝐨𝐮𝐩: _https://chat.whatsapp.com/JazGLNBxW5XDVEst3PN4kj
+║❍ 𝐖𝐚𝐂𝐡𝐚𝐧𝐧𝐞𝐥: _https://whatsapp.com/channel/0029VajweHxKQuJP6qnjLM31
+║❍ 𝐈𝐧𝐬𝐭𝐚𝐠𝐫𝐚𝐦: _https://youtube.com/shorts/wWR5a5lmeT0?si=vzbo0itkKcJsrlYF
+
+Msisahau  ku *like✓* *comment✓* na *subsclible✓*
+Asanten🙏
+
+How to send and receive money any country Through your SIM CARD
+> timnasa-tech
 ______________________________
 Don't Forget To Give Star⭐ To My Repo`
 	 await Qr_Code_By_Toxic_Tech.sendMessage(Qr_Code_By_Toxic_Tech.user.id,{text:Toxic_MD_TEXT},{quoted:session})
