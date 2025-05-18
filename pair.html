@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pair Code</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e2a44, #0f172a);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #e2e8f0;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .box {
+      width: 100%;
+      max-width: 400px;
+      padding: 2rem;
+      background: #1e293b;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .box:hover {
+      transform: translateY(-4px);
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #60a5fa;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-container {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      background: #0f172a;
+      padding: 0.5rem;
+      border-radius: 12px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .input-container input {
+      flex: 1;
+      padding: 1rem;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #e2e8f0;
+      font-size: 1rem;
+      transition: border-color 0.2s ease;
+    }
+
+    .input-container input:focus {
+      outline: none;
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+    }
+
+    .input-container input::placeholder {
+      color: #64748b;
+    }
+
+    .input-container button {
+      padding: 1rem 1.5rem;
+      background: #3b82f6;
+      border: none;
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .input-container button:hover {
+      background: #2563eb;
+      transform: translateY(-2px);
+    }
+
+    .input-container button:active {
+      transform: translateY(0);
+    }
+
+    #waiting-message {
+      color: #60a5fa;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    #pair {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    #pair a, #pair font {
+      color: #f87171;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    #pair a:hover, #pair font:hover {
+      color: #ef4444;
+    }
+
+    #copy.copied {
+      color: #34d399 !important;
+      font-weight: 600;
+    }
+
+    @media (max-width: 500px) {
+      .box {
+        padding: 1.5rem;
+      }
+
+      .input-container {
+        flex-direction: column;
+      }
+
+      .input-container input,
+      .input-container button {
+        width: 100%;
+        border-radius: 8px;
+      }
+
+      .input-container button {
+        padding: 1rem;
+      }
+
+      .title {
+        font-size: 1.3rem;
+      }
+
+      .subtitle {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box">
+      <h3 class="title"><i class="fa fa-user" style="margin-right: 0.5rem;"></i> Toxic MD Pairing Code</h3>
+      <p class="subtitle">Enter your phone number with country code</p>
+      <div class="input-container">
+        <input placeholder="25473534xxxx" type="text" id="number" name="number" autocomplete="tel">
+        <button id="submit">Submit</button>
+      </div>
+      <a id="waiting-message">Please wait a while</a>
+      <main id="pair"></main>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+  <script>
+    const pair = document.getElementById("pair");
+    const submitBtn = document.getElementById("submit");
+    const numberInput = document.getElementById("number");
+    const waitingMessage = document.getElementById("waiting-message");
+
+    async function copyCode() {
+      const codeElement = document.getElementById("copy");
+      const codeText = codeElement.innerText.replace("CODE: ", "");
+      await navigator.clipboard.writeText(codeText);
+      codeElement.classList.add("copied");
+      codeElement.innerText = "COPIED";
+      setTimeout(() => {
+        codeElement.classList.remove("copied");
+        codeElement.innerText = `CODE: ${codeText}`;
+      }, 1000);
+    }
+
+    submitBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const number = numberInput.value.trim();
+
+      if (!number) {
+        pair.innerHTML = '<a style="color: #f87171; font-weight: 500;">Enter your WhatsApp number with country code</a>';
+        return;
+      }
+
+      const cleanNumber = number.replace(/[^0-9]/g, "");
+      if (cleanNumber.length < 11) {
+        pair.innerHTML = '<a style="color: #34d399; font-weight: 500;">Invalid Number</a>';
+        return;
+      }
+
+      // Format number with spaces
+      let formattedNumber = "";
+      const chars = cleanNumber.split("");
+      chars.forEach((char, index) => {
+        formattedNumber += char;
+        if (index === 2 || index === 7) formattedNumber += " ";
+      });
+      numberInput.value = `+${formattedNumber}`;
+
+      pair.innerHTML = '<a style="color: #e2e8f0; font-weight: 500;">Please Wait...</a>';
+      waitingMessage.style.display = "block";
+
+      try {
+        const { data } = await axios(`/code?number=${cleanNumber}`);
+        const code = data.code || "Service Unavailable";
+        pair.innerHTML = `<font id="copy" onclick="copyCode()" style="font-weight: 500;">CODE: <span style="color: #e2e8f0;">${code}</span></font>`;
+      } catch (error) {
+        pair.innerHTML = '<a style="color: #f87171; font-weight: 500;">Error fetching code</a>';
+      } finally {
+        waitingMessage.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
